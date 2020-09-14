@@ -7,3 +7,4 @@ package.json
 *.csv
 *.xlsx
 *.tgz
+my_dictionary_simple.txt
