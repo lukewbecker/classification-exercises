@@ -9,7 +9,7 @@ def prep_iris(x):
 
 
 
-def prep_titanic(titanic_data):
+def prep_titanic_data(titanic_data):
     # Importing the libraries I'll need for this function.
     from sklearn.impute import SimpleImputer
     import warnings
