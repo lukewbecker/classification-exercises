@@ -19,3 +19,6 @@ def prep_titanic(titanic_data):
     imputer.fit(titanic_data[['age']])
     titanic_data[['age']] = imputer.transform(titanic_data[['age']])
     return titanic_data
+
+    # Creating dummy column for sex category:
+    
