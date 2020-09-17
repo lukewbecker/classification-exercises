@@ -1,24 +1,34 @@
 # Creating the function for ingesting, cleaning and preparing the titanic database for exploration.
 
-def prep_titanic(titanic_data):
+def prep_titanic_data(titanic_data):
+          
     # Importing the libraries I'll need for this function.
+    import pandas as pd
     from sklearn.impute import SimpleImputer
     import warnings
     warnings.filterwarnings("ignore")
     
+    titanic_data = titanic_data
+
+
     # Handling the missing data
     titanic_data = titanic_data[~titanic_data.embark_town.isnull()]
     # Removing the 'deck' column    
     titanic_data = titanic_data.drop(columns = 'deck')
+    # Drop passenger_id column:
+    titanic_data = titanic_data.drop(columns = 'passenger_id')
     # Creating dummy variables
     dummy_titanic_df = pd.get_dummies(titanic_data['embarked'], dummy_na = False)
     titanic_data = pd.concat([titanic_data, dummy_titanic_df], axis=1)
+    # Creating dummy column for sex:
+    dummy_titanic_df = pd.get_dummies(titanic_data['sex'], dummy_na = False, drop_first = True)
+    titanic_data = pd.concat([titanic_data, dummy_titanic_df], axis=1)
+    titanic_data.rename(columns = {'male': 'sex_cat'}, inplace = True)
     
     # Using the impute method to fill the missing values in the age column
     imputer = SimpleImputer(strategy = 'most_frequent')
     imputer.fit(titanic_data[['age']])
-    titanic_data[['age']] = imputer.transform(titanic_data[['age']])
-    return titanic_data
-
-    # Creating dummy column for sex category:
+    titanic_data[['age']] = imputer.transform(titanic_data[['age']]) 
     
+    # Return the prepped dataframe:
+    return titanic_data
